@@ -713,7 +713,22 @@ class CARE():
                 cf_class = cf_target
             elif cf_class is 'neighbor':
                 x_proba = self.predict_proba_fn(x_ohe.reshape(1,-1))
+                print("x_proba: ", x_proba)
                 cf_target = np.argsort(x_proba)[0][-2]
+                # Aenderung:
+                cf_target = np.argsort(x_proba)[0][-1]
+                if cf_target == 0:
+                    cf_target = 2
+                    cf_class = 2
+                elif cf_target == 1:
+                    cf_target = 2
+                    cf_class = 2
+                else:
+                    cf_target = 0
+                    cf_class = 0
+                #
+
+                print("cf target class: ", cf_target)
                 cf_class = cf_target
             elif cf_class is 'strange':
                 x_proba = self.predict_proba_fn(x_ohe.reshape(1,-1))

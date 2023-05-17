@@ -7,9 +7,11 @@ from prepare_datasets import *
 from sklearn.model_selection import train_test_split
 from create_model import CreateModel, MLPClassifier, MLPRegressor
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from sklearn.ensemble import RandomForestClassifier
 from user_preferences import userPreferences
 from care_explainer import CAREExplainer
 from generate_text_explanations import GenerateTextExplanations
+from utils import ord2org
 
 def main():
     # defining path of data sets and experiment results
@@ -18,12 +20,14 @@ def main():
 
     # defining the list of data sets
     datsets_list = {
-        'adult': ('adult.csv', PrepareAdult, 'classification'), # use 'nn-c' or 'gb-c'
+
+        'IBA_seminar_dataset': ("preprocessed_data.csv",PrepareIBA_dataset,'classification'),
+        #'adult': ('adult.csv', PrepareAdult, 'classification'), # use 'nn-c' or 'gb-c'
         # 'compas-scores-two-years': ('compas-scores-two-years.csv', PrepareCOMPAS, 'classification'), # use 'nn-c' or 'gb-c'
-        # 'credit-card-default': ('credit-card-default.csv', PrepareCreditCardDefault, 'classification'), # use 'nn-c' or 'gb-c'
+        #'credit-card-default': ('credit-card-default.csv', PrepareCreditCardDefault, 'classification'), # use 'nn-c' or 'gb-c'
         # 'heloc': ('heloc_dataset_v1.csv', PrepareHELOC, 'classification'), # use 'nn - c' or 'gb - c'
         # 'heart-disease': ('heart-disease.csv', PrepareHeartDisease, 'classification'),  # use 'nn-c' or 'gb-c'
-        # 'iris': ('iris-sklearn', PrepareIris, 'classification'),  # use 'gb-c'
+        #'iris': ('iris-sklearn', PrepareIris, 'classification'),  # use 'gb-c'
         # 'wine': ('wine-sklearn', PrepareWine, 'classification'), # use 'gb-c'
         # 'diabetes': ('diabetes-sklearn', PrepareDiabetes, 'regression') # use 'nn-r' or 'gb-r'
         # 'california-housing': ('california-housing-sklearn', PrepareCaliforniaHousing, 'regression') # use 'nn-r' or 'gb-r'
@@ -31,8 +35,9 @@ def main():
 
     # defining the list of black-boxes
     blackbox_list = {
-        'nn-c': MLPClassifier,
-        # 'gb-c': GradientBoostingClassifier,
+        #'nn-c': MLPClassifier,
+        #'gb-c': GradientBoostingClassifier,
+        'rf-c': RandomForestClassifier
         # 'nn-r': MLPRegressor,
         # 'gb-r': GradientBoostingRegressor
     }
@@ -47,7 +52,9 @@ def main():
 
         # splitting the data set into train and test sets
         X, y = dataset['X_ord'], dataset['y']
-        X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=45)
+        #0 is good, 2 is standard, 1 is poor
+        #äendern das wenn 1->2, 2-> 0 0->2
 
         for blackbox_name, blackbox_constructor in blackbox_list.items():
             print('blackbox=', blackbox_name)
@@ -63,7 +70,10 @@ def main():
 
             # instance to explain
             ind = 0
-            x_ord = X_test[ind]
+            x_ord = X_test[7]
+            print(ord2org(x_ord,dataset))
+
+
             n_cf = 10
 
             # set user preferences || they are taken into account when ACTIONABILITY=True!
@@ -71,9 +81,10 @@ def main():
 
             # explain instance x_ord using CARE
             output = CAREExplainer(x_ord, X_train, Y_train, dataset, task, predict_fn, predict_proba_fn,
-                                   SOUNDNESS=True, COHERENCY=False, ACTIONABILITY=False,
+                                   SOUNDNESS=True, COHERENCY=True, ACTIONABILITY=True,
                                    user_preferences=user_preferences, cf_class='neighbor',
-                                   probability_thresh=0.5, cf_quantile='neighbor', n_cf=n_cf)
+                                   probability_thresh=0.450
+                                   , cf_quantile='neighbor', n_cf=n_cf)
 
             # print counterfactuals and their corresponding objective values
             print('\n')

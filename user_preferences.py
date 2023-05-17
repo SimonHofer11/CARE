@@ -242,6 +242,35 @@ def userPreferences(dataset, x_ord):
             importance[index] = constraints[p][1]
             print(p + ':', constraints[p][0], 'with importance', '(' + str(constraints[p][1]) + ')')
 
+        ##IBA Seminar constrains
+
+
+
+    elif dataset['name'] == 'IBA_seminar_dataset':
+        ## Feature names and their possible values
+        ## Features with range [] values are continuous (e.g., CRIM) and features with set {} values (e.g., CHAS) are discrete
+
+        # {'MedInc': [0.4999, 15.0001]},
+        # {'HouseAge': [1.0, 52.0]},
+        # {'AveRooms': [0.8461538461538461, 141.9090909090909]},
+        # {'AveBedrms': [0.3333333333333333, 34.06666666666667]},
+        # {'Population': [3.0, 35682.0]},
+        # {'AveOccup': [0.6923076923076923, 1243.3333333333333]},
+        # {'Latitude': [32.54, 41.95]},
+        # {'Longitude': [-124.35, -114.31]}
+
+        print('\n')
+        print('----- user-specified constraints -----')
+        constraints = {}
+
+        constraint = [None] * len(x_ord)
+        importance = [None] * len(x_ord)
+        for p in constraints:
+            index = dataset['feature_names'].index(p)
+            constraint[index] = constraints[p][0]
+            importance[index] = constraints[p][1]
+            print(p + ':', constraints[p][0], 'with importance', '(' + str(constraints[p][1]) + ')')
+
     ## Iris data set
     elif dataset['name'] == 'iris':
         ## Feature names and their possible values
