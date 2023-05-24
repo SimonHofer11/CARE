@@ -70,7 +70,7 @@ def main():
 
             # instance to explain
             ind = 0
-            x_ord = X_test[7]
+            x_ord = X_test[8]
             print(ord2org(x_ord,dataset))
 
 

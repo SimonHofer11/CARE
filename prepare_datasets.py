@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder, StandardScaler
 from sklearn.datasets import load_diabetes, load_iris, make_moons, load_wine, fetch_california_housing
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
 
 ## Preparing Adult dataset
 def PrepareAdult(dataset_path, dataset_name):
@@ -1447,11 +1450,15 @@ def PrepareIBA_dataset(path_param,name_param):
     #df = pd.read_csv(dataset_path + dataset_name, delimiter=',', na_values=' ?')
     df = pd.read_csv('C:/Users/Simon Hofer/OneDrive/Dokumente/Master/Semesterverzeichnis/Semester 1/SeminarIBA/preprocessed_data.csv',sep=',')
     #drop unnecessary columns
-    df.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
+    #df.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
+
+
+    df.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
+
     ## Handling missing values
     df = df.dropna().reset_index(drop=True)
     #print(df['Credit_Score'].unique())
-    df = df.sample(frac=0.015, replace=True, random_state=2)
+    #df = df.sample(frac=1, replace=True, random_state=2)
     print(df.shape)
 
     ## Recognizing inputs
@@ -1467,7 +1474,11 @@ def PrepareIBA_dataset(path_param,name_param):
                            'Interest_Rate','Num_of_Loan','Delay_from_due_date','Num_of_Delayed_Payment','Changed_Credit_Limit',
                            'Num_Credit_Inquiries','Outstanding_Debt','Credit_Utilization_Ratio','Total_EMI_per_month',
                            'Amount_invested_monthly','Monthly_Balance']
-    discrete_features = ['Month', 'SSN', 'Occupation', 'Type_of_Loan', 'Credit_Mix',
+    #discrete_features = ['Month', 'SSN', 'Occupation', 'Type_of_Loan', 'Credit_Mix',
+    #                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour']
+
+
+    discrete_features = ['Month', 'Occupation', 'Type_of_Loan', 'Credit_Mix',
                          'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour']
     x = len(continuous_features) + len(discrete_features)
     print(x)
@@ -1601,7 +1612,51 @@ def PrepareIBA_dataset(path_param,name_param):
 
 
 if __name__ == '__main__':
+    ####Parametertuning####
+    """
     df = pd.read_csv(
         'C:/Users/Simon Hofer/OneDrive/Dokumente/Master/Semesterverzeichnis/Semester 1/SeminarIBA/preprocessed_data.csv',
         sep=',')
-    print(df.head(50))
+    df.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
+
+    ## Handling missing values
+    df = df.dropna().reset_index(drop=True)
+    """
+    x= 2
+    y = 2
+
+    df = PrepareIBA_dataset(x,y)
+    X, y = df['X_ord'], df['y']
+
+    rf = RandomForestClassifier()
+
+    # Definieren der Hyperparameter, die getestet werden sollen
+    param_grid = {
+        'n_estimators': [100, 200, 300],  # Anzahl der Bäume im Wald
+        'max_depth': [None, 5, 10],  # maximale Tiefe der Bäume
+        'min_samples_split': [2, 5, 10],  # Mindestanzahl von Samples für einen Split
+        'min_samples_leaf': [1, 2, 4]  # Mindestanzahl von Samples in einem Blatt
+    }
+
+    #class_name = 'Credit_Score'
+    #X= df.loc[:, df.columns != class_name]
+    #y = df.loc[:, class_name]
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Initialisierung der GridSearchCV mit dem Random Forest-Klassifikator und dem Parameterraster
+    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5)
+
+    # Durchführen der Suche nach den besten Hyperparametern
+    grid_search.fit(X_train, y_train)
+
+    # Ausgabe der besten Hyperparameter-Kombination
+    print("Beste Hyperparameter-Kombination gefunden:")
+    print(grid_search.best_params_)
+
+    # Auswertung des Modells auf den Testdaten
+    best_model = grid_search.best_estimator_
+    accuracy = best_model.score(X_test, y_test)
+    print("Genauigkeit des besten Modells auf den Testdaten:", accuracy)
+
+

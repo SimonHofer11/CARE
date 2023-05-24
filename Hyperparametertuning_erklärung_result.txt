@@ -1,0 +1,16 @@
+In diesem Beispiel wird der Iris-Datensatz verwendet, und es werden verschiedene Hyperparameter für den Random Forest-Klassifikator getestet, wie die Anzahl der Bäume, die maximale Tiefe der Bäume, die Mindestanzahl von Samples für einen Split und die Mindestanzahl von Samples in einem Blatt. Die GridSearchCV-Klasse führt eine Kreuzvalidierung mit k-Folds (hier k=5) durch, um die besten Hyperparameter zu finden. Am Ende wird das beste Modell mit den besten Hyperparametern ausgewählt und auf den Testdaten evaluiert.
+
+Beachten Sie, dass dies nur ein Beispiel ist, und je nach Ihrem spezifischen Problem und Datensatz weitere Hyperparameter und Werte berücksichtigt werden sollten. Das Experimentieren mit verschiedenen Hyperparametern und Werten kann dazu beitragen, die Leistung des Random Forest-Modells zu optimieren.
+
+
+Bei der Verwendung der GridSearchCV-Klasse wird eine systematische Suche über alle möglichen Kombinationen der angegebenen Hyperparameter durchgeführt. Die Anzahl der berechneten Kombinationen hängt von der Anzahl der Werte für jeden Hyperparameter ab.
+
+Im gegebenen Beispiel gibt es drei Werte für den Parameter 'n_estimators' (100, 200, 300), drei Werte für 'max_depth' (None, 5, 10), drei Werte für 'min_samples_split' (2, 5, 10) und drei Werte für 'min_samples_leaf' (1, 2, 4). Da diese Parameter unabhängig voneinander sind, ergibt sich die Gesamtzahl der Kombinationen durch Multiplikation der Anzahl der Werte für jeden Parameter: 3 * 3 * 3 * 3 = 81.
+
+In diesem Fall würde die GridSearchCV-Klasse also 81 Kombinationen von Hyperparametern ausprobieren und für jede Kombination eine Kreuzvalidierung mit k-Folds (hier k=5) durchführen. Beachten Sie jedoch, dass die tatsächliche Anzahl der berechneten Modelle auch von anderen Faktoren wie der Anzahl der Folds, der Größe der Trainingsdaten und der Rechenleistung des Systems abhängen kann.
+
+
+Beste Hyperparameter-Kombination gefunden:
+{'max_depth': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
+check:  False
+Genauigkeit des besten Modells auf den Testdaten: 0.7848290361845746
