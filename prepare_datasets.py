@@ -12,6 +12,8 @@ def PrepareAdult(dataset_path, dataset_name):
     ## Reading data from a csv file
     df = pd.read_csv(dataset_path + dataset_name, delimiter=',', na_values=' ?')
 
+#TODO: Data preparation IBA version
+
     ## Handling missing values
     df = df.dropna().reset_index(drop=True)
 
