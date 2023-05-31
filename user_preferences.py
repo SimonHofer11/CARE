@@ -18,6 +18,54 @@ def userPreferences(dataset, x_ord):
     ## continuous constraints = {'fix', 'l', 'g', 'le', 'ge', [lb, ub]}
     ## constraints = {feature_name_1: (constraint, importance), feature_name_2: (constraint, importance), ...}
 
+
+    ## CUSTOMER SEMINAR data set
+    if dataset['name'] == 'customer':
+
+        ## Feature names and their possible values
+        ## Features with range [] values are continuous (e.g., age) and features with set {} values (e.g., work-class) are discrete
+
+        # {'Month': [0, 7]}
+        # {'Age': [14, 60]}
+        # {'SSN': [0,]12457}
+        # {'Occupation': [0, 15]}
+        # {'Annual_Income': [7005.93,277804]}
+        # {'Monthly_Inhand_Salary': [303.645417, 14978.33667]}
+        # {'Num_Bank_Accounts': [-1, 744]
+        # {'Num_Credit_Card': [0, 1000]}
+        # {'Interest_Rate': [1, 4998]}
+        # {'Num_of_Loan': [-100,1096]}
+        # {'Type_of_Loan': [0,6244]}
+        # {'Delay_from_due_date': [-5,65]}
+        # {'Num_of_Delayed_Payment': [-3,996]}
+        # {'Changed_Credit_Limit': [-6.48,29]}
+        # {'Num_Credit_Inquiries': [0,2399]}
+        # {'Credit_Mix': [0,3]}
+        # {'Outstanding_Debt': [0.23, 4949.89]}
+        # {'Credit_Utilization_Ratio': [20, 44.992922]}
+        # {'Credit_History_Age': [0,403]}
+        # {'Payment_of_Min_Amount': [0,2]}
+        # {'Total_EMI_per_month': [0,74958]}
+        # {'Amount_invested_monthly': [0,10000]}
+        # {'Payment_Behaviour': [0,6]}
+        # {'Monthly_Balance': [0.00776,1602.040519]}
+        # {'Credit_Score': [0,2]}
+
+        print('\n')
+        print('----- user-specified constraints -----')
+        constraints = {'age': ('ge',1),
+                       'sex': ('fix', 1),
+                       'race': ('fix', 1),
+                       'native-country': ('fix', 1)}
+
+        constraint = [None] * len(x_ord)
+        importance = [None] * len(x_ord)
+        for p in constraints:
+            index = dataset['feature_names'].index(p)
+            constraint[index] = constraints[p][0]
+            importance[index] = constraints[p][1]
+            print(p + ':', constraints[p][0], 'with importance', '(' + str(constraints[p][1]) + ')')
+
     ## Adult data set
     if dataset['name'] == 'adult':
         ## Feature names and their possible values
