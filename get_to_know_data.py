@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import OrdinalEncoder
 
 
-###################################################IBA SEMINAR DATA PREPARATION########################################
+#### START ###############################################IBA SEMINAR DATA PREPARATION########################################
 
 # Reading data from a csv file
 data = pd.read_csv("preprocessed_data.csv")
@@ -60,3 +60,5 @@ data["Annual_Income"].plot.hist(bins=12, range=(0,200000), alpha=0.5, color = "r
 plt.xlabel("Annual Income")
 plt.tight_layout()
 plt.show()
+
+#### END ###############################################IBA SEMINAR DATA PREPARATION########################################

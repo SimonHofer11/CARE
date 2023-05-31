@@ -20,8 +20,7 @@ def main():
 
     # defining the list of data sets
     datsets_list = {
-
-        'IBA_seminar_dataset': ("preprocessed_data.csv",PrepareIBA_dataset,'classification'),
+        'IBA_seminar_dataset': ("preprocessed_data.csv", PrepareIBA_dataset, 'classification'),
         #'adult': ('adult.csv', PrepareAdult, 'classification'), # use 'nn-c' or 'gb-c'
         # 'compas-scores-two-years': ('compas-scores-two-years.csv', PrepareCOMPAS, 'classification'), # use 'nn-c' or 'gb-c'
         #'credit-card-default': ('credit-card-default.csv', PrepareCreditCardDefault, 'classification'), # use 'nn-c' or 'gb-c'

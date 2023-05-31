@@ -1437,7 +1437,9 @@ def PrepareWine(dataset_path, dataset_name):
 
 
 
-###################################################IBA SEMINAR DATA PREPARATION########################################
+
+
+#### START ###############################################IBA SEMINAR DATA PREPARATION########################################
 
 #preprocess data (drop, filter,etc.)
 #data.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
@@ -1609,6 +1611,22 @@ def PrepareIBA_dataset(path_param,name_param):
     print("here we go")
 
     return dataset
+
+#### END ###############################################IBA SEMINAR DATA PREPARATION########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

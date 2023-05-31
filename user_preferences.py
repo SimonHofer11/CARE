@@ -22,7 +22,10 @@ def userPreferences(dataset, x_ord):
 
 
 
-    ###################################################IBA SEMINAR USER PREFERENCES########################################
+
+
+
+    #### START ###############################################IBA SEMINAR DATA PREPARATION########################################
 
     if dataset['name'] == 'IBA_seminar_dataset':
 
@@ -69,6 +72,8 @@ def userPreferences(dataset, x_ord):
             constraint[index] = constraints[p][0]
             importance[index] = constraints[p][1]
             print(p + ':', constraints[p][0], 'with importance', '(' + str(constraints[p][1]) + ')')
+
+    #### END ###############################################IBA SEMINAR DATA PREPARATION########################################
 
 
 
