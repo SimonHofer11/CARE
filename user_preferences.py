@@ -19,16 +19,20 @@ def userPreferences(dataset, x_ord):
     ## constraints = {feature_name_1: (constraint, importance), feature_name_2: (constraint, importance), ...}
 
 
-    ## CUSTOMER SEMINAR data set
-    if dataset['name'] == 'customer':
+
+
+
+    ###################################################IBA SEMINAR USER PREFERENCES########################################
+
+    if dataset['name'] == 'IBA_seminar_dataset':
 
         ## Feature names and their possible values
         ## Features with range [] values are continuous (e.g., age) and features with set {} values (e.g., work-class) are discrete
 
-        # {'Month': [0, 7]}
+        # {'Month': {0, 7}}
         # {'Age': [14, 60]}
-        # {'SSN': [0,]12457}
-        # {'Occupation': [0, 15]}
+        # {'SSN': {0,12457}}
+        # {'Occupation': {0, 15}}
         # {'Annual_Income': [7005.93,277804]}
         # {'Monthly_Inhand_Salary': [303.645417, 14978.33667]}
         # {'Num_Bank_Accounts': [-1, 744]
@@ -40,14 +44,14 @@ def userPreferences(dataset, x_ord):
         # {'Num_of_Delayed_Payment': [-3,996]}
         # {'Changed_Credit_Limit': [-6.48,29]}
         # {'Num_Credit_Inquiries': [0,2399]}
-        # {'Credit_Mix': [0,3]}
+        # {'Credit_Mix': {0,3}}
         # {'Outstanding_Debt': [0.23, 4949.89]}
         # {'Credit_Utilization_Ratio': [20, 44.992922]}
-        # {'Credit_History_Age': [0,403]}
-        # {'Payment_of_Min_Amount': [0,2]}
+        # {'Credit_History_Age': {0,403}}
+        # {'Payment_of_Min_Amount': {0,2}}
         # {'Total_EMI_per_month': [0,74958]}
         # {'Amount_invested_monthly': [0,10000]}
-        # {'Payment_Behaviour': [0,6]}
+        # {'Payment_Behaviour': {0,6}}
         # {'Monthly_Balance': [0.00776,1602.040519]}
         # {'Credit_Score': [0,2]}
 
@@ -65,6 +69,11 @@ def userPreferences(dataset, x_ord):
             constraint[index] = constraints[p][0]
             importance[index] = constraints[p][1]
             print(p + ':', constraints[p][0], 'with importance', '(' + str(constraints[p][1]) + ')')
+
+
+
+
+
 
     ## Adult data set
     if dataset['name'] == 'adult':

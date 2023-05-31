@@ -12,8 +12,6 @@ def PrepareAdult(dataset_path, dataset_name):
     ## Reading data from a csv file
     df = pd.read_csv(dataset_path + dataset_name, delimiter=',', na_values=' ?')
 
-#TODO: Data preparation IBA version
-
     ## Handling missing values
     df = df.dropna().reset_index(drop=True)
 
@@ -1454,6 +1452,7 @@ def PrepareIBA_dataset(path_param,name_param):
     #drop unnecessary columns
     #df.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
 
+    #TODO: Data preparation IBA version (siehe get_to_know_data)
 
     df.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
 

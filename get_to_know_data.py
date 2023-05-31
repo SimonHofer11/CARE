@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import OrdinalEncoder
 
 
+###################################################IBA SEMINAR DATA PREPARATION########################################
+
 # Reading data from a csv file
 data = pd.read_csv("preprocessed_data.csv")
 
