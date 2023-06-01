@@ -31,6 +31,8 @@ for column in data.columns:
 data = clean_dataset(data)
 data = data.reset_index()
 
+#TODO: alle Werte die keinen Sinn machen rauswerfen
+
 #Datenaufbereitung
 
 print("\n", "********Randinformationen********", "\n")

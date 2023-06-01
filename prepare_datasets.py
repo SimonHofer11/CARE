@@ -1450,12 +1450,12 @@ def PrepareIBA_dataset(path_param,name_param):
 
     ## Reading data from a csv file
     #df = pd.read_csv(dataset_path + dataset_name, delimiter=',', na_values=' ?')
+    #TODO: Simon kannst du hier die Datei auch aus dem Github Ordner laden?
     df = pd.read_csv('C:/Users/Simon Hofer/OneDrive/Dokumente/Master/Semesterverzeichnis/Semester 1/SeminarIBA/preprocessed_data.csv',sep=',')
     #drop unnecessary columns
     #df.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
 
-    #TODO: Data preparation IBA version (siehe get_to_know_data)
-
+    #Löscht mehrere Spalten
     df.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
 
     ## Handling missing values

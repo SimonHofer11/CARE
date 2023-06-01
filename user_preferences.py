@@ -60,10 +60,19 @@ def userPreferences(dataset, x_ord):
 
         print('\n')
         print('----- user-specified constraints -----')
-        constraints = {'age': ('ge',1),
+        constraints = {'age': ('ge', 1), #1 steht für importance Strafterm (1-10)
                        'sex': ('fix', 1),
                        'race': ('fix', 1),
-                       'native-country': ('fix', 1)}
+                       'native-country': ('fix', 1),
+                       'income': ([0 , 1000] , 1)},
+        #fixieren: 'fix'
+        #greater than or equal to the current value: 'ge'
+        #gretaer: 'g'
+        #zwischen: '[1,10] / {Kategorische Werte}
+        #less than the current value: 'l'
+        #less or equal than the current value: 'le'
+
+
 
         constraint = [None] * len(x_ord)
         importance = [None] * len(x_ord)
