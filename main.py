@@ -12,6 +12,9 @@ from user_preferences import userPreferences
 from care_explainer import CAREExplainer
 from generate_text_explanations import GenerateTextExplanations
 from utils import ord2org
+import json
+import pickle
+
 
 def main():
     # defining path of data sets and experiment results
@@ -69,11 +72,15 @@ def main():
 
             # instance to explain
             ind = 0
-            x_ord = X_test[8]
-            print(ord2org(x_ord,dataset))
+            cf_list = {}
+            """
+            for i in range(1, 31):
+
+            x_ord = X_test[i]
+            #print(ord2org(x_ord,dataset))
 
 
-            n_cf = 10
+            n_cf = 5
 
             # set user preferences || they are taken into account when ACTIONABILITY=True!
             user_preferences = userPreferences(dataset, x_ord)
@@ -84,6 +91,13 @@ def main():
                                    user_preferences=user_preferences, cf_class='neighbor',
                                    probability_thresh=0.450
                                    , cf_quantile='neighbor', n_cf=n_cf)
+
+            # Append the value of i to the data list
+            cf_list.append(output['x_cfs_eval'])
+
+            # Save the updated cf to a JSON file
+            with open('cf_seminar_results.json', 'w') as file:
+                json.dump(cf_list, file)
 
             # print counterfactuals and their corresponding objective values
             print('\n')
@@ -98,6 +112,61 @@ def main():
 
             print('\n')
             print('Done!')
+            """
+
+            for i in range(8, 39):
+                x_ord = X_test[i]
+                # print(ord2org(x_ord,dataset))
+
+                n_cf = 5
+
+                # set user preferences || they are taken into account when ACTIONABILITY=True!
+                user_preferences = userPreferences(dataset, x_ord)
+
+                # explain instance x_ord using CARE
+                output = CAREExplainer(x_ord, X_train, Y_train, dataset, task, predict_fn, predict_proba_fn,
+                                       SOUNDNESS=True, COHERENCY=True, ACTIONABILITY=True,
+                                       user_preferences=user_preferences, cf_class='neighbor',
+                                       probability_thresh=0.450
+                                       , cf_quantile='neighbor', n_cf=n_cf)
+
+                # Append the value of i to the data list
+                print(output['x_cfs_highlight'])
+                #cf_list.append(output['x_cfs_highlight'].to_dict(orient='records'))
+                cf_list['test_' + str(i) + '_highlight'] = output['x_cfs_highlight']
+                cf_list['test_' + str(i) + '_eval'] = output['x_cfs_eval']
+                cf_list['test_' + str(i) + '_next'] = "--------------------NEXT COUNTERFACTUAL----------------------------"
+
+
+
+                # Save the updated cf to a JSON file
+                #with open('cf_seminar_results.json', 'w') as file:
+                #    json.dump(cf_list, file)
+            # create a binary pickle file
+            with open('cf_seminar_results.pickle', 'wb') as f:
+                pickle.dump(cf_list, f, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 if __name__ == '__main__':
+
+
     main()
+
+    ##after running main and saving the results one can open and watch the results with the following code
+    """
+    import pickle
+
+    # Open the pickle file
+    with open('cf_seminar_results.pickle', 'rb') as f:
+        cf_list = pickle.load(f)
+
+    # Iterate over each element (dictionary key) in cf_list
+    for element in cf_list:
+        # Access the corresponding dictionary value using the key
+        data = cf_list[element]
+
+        # Print the data
+        print(data)
+    """
+
+
