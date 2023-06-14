@@ -1450,18 +1450,25 @@ def PrepareIBA_dataset(path_param,name_param):
 
     ## Reading data from a csv file
     #df = pd.read_csv(dataset_path + dataset_name, delimiter=',', na_values=' ?')
-    #TODO: Simon kannst du hier die Datei auch aus dem Github Ordner laden?
     df = pd.read_csv('C:/Users/Simon Hofer/OneDrive/Dokumente/Master/Semesterverzeichnis/Semester 1/SeminarIBA/preprocessed_data.csv',sep=',')
     #drop unnecessary columns
     #df.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
+    df = df[df['Num_Bank_Accounts'] >= 0]
+    df = df[df['Num_of_Loan'] >= 0]
+    df = df[df['Delay_from_due_date'] >= 0]
+    df = df[df['Num_of_Delayed_Payment'] >= 0]
+    df = df[df['Changed_Credit_Limit'] >= 0]
 
-    #Löscht mehrere Spalten
+
+
+
+#Löscht mehrere Spalten
     df.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
 
     ## Handling missing values
     df = df.dropna().reset_index(drop=True)
     #print(df['Credit_Score'].unique())
-    #df = df.sample(frac=1, replace=True, random_state=2)
+    df = df.sample(frac=0.2, replace=True, random_state=2)
     print(df.shape)
 
     ## Recognizing inputs

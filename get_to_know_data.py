@@ -52,15 +52,17 @@ print("***** Maximum : ***** ", "\n",data.loc[data.shape[0]-2], "\n")
 print("***** Average : ***** ", "\n",data.loc[data.shape[0]-1], "\n")
 
 plt.figure()
-data["Age"].plot.hist(bins=10, range=(10,80), alpha=0.5, color = "green")
+data["Age"].plot.hist(bins=9, range=(0,60), alpha=0.5, color = "blue", edgecolor="black")
 plt.xlabel("Age")
 plt.tight_layout()
+plt.ylabel("Frequency of occurence")
 plt.show()
 
 plt.figure()
-data["Annual_Income"].plot.hist(bins=12, range=(0,200000), alpha=0.5, color = "red")
+data["Annual_Income"].plot.hist(bins=12, range=(data["Annual_Income"].min(), 200000), alpha=0.5, color = "red", edgecolor="black")
 plt.xlabel("Annual Income")
 plt.tight_layout()
+plt.ylabel("Frequency of occurence")
 plt.show()
 
 #### END ###############################################IBA SEMINAR DATA PREPARATION########################################

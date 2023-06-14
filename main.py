@@ -114,7 +114,7 @@ def main():
             print('Done!')
             """
 
-            for i in range(8, 39):
+            for i in range(20, 33):
                 x_ord = X_test[i]
                 # print(ord2org(x_ord,dataset))
 
@@ -150,10 +150,10 @@ def main():
 if __name__ == '__main__':
 
 
-    main()
+    #main()
 
     ##after running main and saving the results one can open and watch the results with the following code
-    """
+
     import pickle
 
     # Open the pickle file
@@ -167,6 +167,10 @@ if __name__ == '__main__':
 
         # Print the data
         print(data)
-    """
+
+
+
+
+
 
 
