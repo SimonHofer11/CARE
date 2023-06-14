@@ -10,46 +10,70 @@ from sklearn.preprocessing import OrdinalEncoder
 #### START ###############################################IBA SEMINAR DATA PREPARATION########################################
 
 # Reading data from a csv file
-data = pd.read_csv("preprocessed_data.csv")
+data = pd.read_csv("prepreprocessed_data.csv")
+data.reset_index(drop=True, inplace=True)
+data.drop(['Type_of_Loan'], axis=1, inplace=True)
 
-# Preprocessing wie Lars
-
-data.drop(['ID', 'Customer_ID'], axis=1, inplace=True)
-
-def clean_dataset(df):
-    assert isinstance(df, pd.DataFrame), "df needs to be a pd.DataFrame"
-    df.dropna(inplace=True)
-    indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
-    return df[indices_to_keep].astype(np.float64)
-
-from sklearn.preprocessing import OrdinalEncoder
-ordinal_encoder = OrdinalEncoder()
-for column in data.columns:
-  if data[column].dtypes == 'object':
-    data[column] = ordinal_encoder.fit_transform(data[[column]])
-
-data = clean_dataset(data)
-data = data.reset_index()
-
-#TODO: alle Werte die keinen Sinn machen rauswerfen
-
-#Datenaufbereitung
-
-print("\n", "********Randinformationen********", "\n")
+print("\n", "********Informationen Datensatz********", "\n")
 print("Es werden Kundendaten betrachtet. Der Datensatz umfasst", data.shape[0], "Kunden. Jeder Kunde hat", data.shape[1], "Attribute", "\n")
 
 
+# Preprocessing
+
+#drop unlogicial rows
+
+print("Zunächst werden alle Kunden die unlogische Attribute (z.B. Alter = -3) enthalten und Kunden mit fehlenden Attributen aus dem Datensatz entfernt.","\n")
+data = data[data['Num_Bank_Accounts'] >= 0]
+data = data[data['Num_of_Loan'] >= 0]
+data = data[data['Delay_from_due_date'] >= 0]
+data = data[data['Num_of_Delayed_Payment'] >= 0]
+data = data[data['Changed_Credit_Limit'] >= 0]
+## Handling missing values
+data = data.dropna().reset_index(drop=True)
+print("Außerdem werden 3 Spalten (ID, Customer ID und SNN), die keinen Informationswert enthalten aus dem Datzsatz entfernt." "\n")
+# delete some columns
+data.drop(['ID', 'Customer_ID', 'SSN'], axis=1, inplace=True)
+print("Danach umfasst der Datensatz noch", data.shape[0], "Kunden. Jeder Kunde hat jetzt nur noch", data.shape[1], "Attribute", "\n")
+
+
+#Aufteilung in discret und continous
+continuous_features = ['Age', 'Annual_Income', 'Monthly_Inhand_Salary', 'Num_Bank_Accounts', 'Num_Credit_Card',
+                       'Interest_Rate', 'Num_of_Loan', 'Delay_from_due_date', 'Num_of_Delayed_Payment',
+                       'Changed_Credit_Limit',
+                       'Num_Credit_Inquiries', 'Outstanding_Debt', 'Credit_Utilization_Ratio', 'Total_EMI_per_month',
+                       'Amount_invested_monthly', 'Monthly_Balance']
+#TODO: Type of Loans
+discrete_features = ['Month', 'Occupation', 'Credit_Mix',
+                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour']
+
+print("Von den übrig gebliebenen Attribute sind ", len(continuous_features), "Attribute stetig und ", len(discrete_features), "diskret")
+print("\n")
+print("\n")
+
 print("\n","********Betrachtung der Attribute********", "\n")
-print("Die Attribute lauten: ", ', '.join(data.columns), "\n", "\n")
+print("Die Attribute lauten: ",  "\n", ', '.join(data.columns), "\n", "\n")
 
-print("Im folgenden werden Minimum, Maximum und der Average der einzlenen Attribute ausgegeben""\n")
-data.loc[data.shape[0]] = data.min()
-data.loc[data.shape[0]] = data.max()
-data.loc[data.shape[0]] = data.mean()
+print("Im folgenden werden Minimum, Maximum und der Average der stetigen Attribute ausgegeben""\n")
 
-print("***** Minimum : ***** ", "\n", data.loc[data.shape[0]-3], "\n")
-print("***** Maximum : ***** ", "\n",data.loc[data.shape[0]-2], "\n")
-print("***** Average : ***** ", "\n",data.loc[data.shape[0]-1], "\n")
+print("Die stetigen Attribute lauten:", "\n" , continuous_features)
+
+print("***** Minimum : ***** ", "\n", data[continuous_features].min(), "\n")
+print("***** Maximum : ***** ", "\n", data[continuous_features].max(), "\n")
+print("***** Average : ***** ", "\n", data[continuous_features].mean(), "\n")
+print("\n")
+
+print("Die discreten Attribute lauten:" , discrete_features)
+print("\n")
+
+print("Bei Occupation gibt es die Auswahl zwischen: ", data["Occupation"].unique())
+print("\n")
+print("Bei Credit_Mix gibt es die Auswahl zwischen: ", data["Credit_Mix"].unique())
+print("\n")
+print("Bei Credit_History_Age gibt es die Auswahl zwischen: ", data["Credit_History_Age"].unique())
+print("\n")
+print("Bei Payment_of_Min_Amount gibt es die Auswahl zwischen: ", data["Payment_of_Min_Amount"].unique())
+print("\n")
+print("Bei Payment_Behaviour gibt es die Auswahl zwischen: ", data["Payment_Behaviour"].unique())
 
 plt.figure()
 data["Age"].plot.hist(bins=9, range=(0,60), alpha=0.5, color = "blue", edgecolor="black")
