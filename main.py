@@ -37,9 +37,9 @@ def main():
 
     # defining the list of black-boxes
     blackbox_list = {
+        'rf-c': RandomForestClassifier
         #'nn-c': MLPClassifier,
         #'gb-c': GradientBoostingClassifier,
-        'rf-c': RandomForestClassifier
         # 'nn-r': MLPRegressor,
         # 'gb-r': GradientBoostingRegressor
     }
