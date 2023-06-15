@@ -10,9 +10,6 @@ from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegress
 from sklearn.ensemble import RandomForestClassifier
 from user_preferences import userPreferences
 from care_explainer import CAREExplainer
-from generate_text_explanations import GenerateTextExplanations
-from utils import ord2org
-import json
 import pickle
 
 
@@ -24,15 +21,6 @@ def main():
     # defining the list of data sets
     datsets_list = {
         'IBA_seminar_dataset': ("preprocessed_data.csv", PrepareIBA_dataset, 'classification'),
-        #'adult': ('adult.csv', PrepareAdult, 'classification'), # use 'nn-c' or 'gb-c'
-        # 'compas-scores-two-years': ('compas-scores-two-years.csv', PrepareCOMPAS, 'classification'), # use 'nn-c' or 'gb-c'
-        #'credit-card-default': ('credit-card-default.csv', PrepareCreditCardDefault, 'classification'), # use 'nn-c' or 'gb-c'
-        # 'heloc': ('heloc_dataset_v1.csv', PrepareHELOC, 'classification'), # use 'nn - c' or 'gb - c'
-        # 'heart-disease': ('heart-disease.csv', PrepareHeartDisease, 'classification'),  # use 'nn-c' or 'gb-c'
-        #'iris': ('iris-sklearn', PrepareIris, 'classification'),  # use 'gb-c'
-        # 'wine': ('wine-sklearn', PrepareWine, 'classification'), # use 'gb-c'
-        # 'diabetes': ('diabetes-sklearn', PrepareDiabetes, 'regression') # use 'nn-r' or 'gb-r'
-        # 'california-housing': ('california-housing-sklearn', PrepareCaliforniaHousing, 'regression') # use 'nn-r' or 'gb-r'
     }
 
     # defining the list of black-boxes
@@ -73,48 +61,8 @@ def main():
             # instance to explain
             ind = 0
             cf_list = {}
-            """
-            for i in range(1, 31):
 
-            x_ord = X_test[i]
-            #print(ord2org(x_ord,dataset))
-
-
-            n_cf = 5
-
-            # set user preferences || they are taken into account when ACTIONABILITY=True!
-            user_preferences = userPreferences(dataset, x_ord)
-
-            # explain instance x_ord using CARE
-            output = CAREExplainer(x_ord, X_train, Y_train, dataset, task, predict_fn, predict_proba_fn,
-                                   SOUNDNESS=True, COHERENCY=True, ACTIONABILITY=True,
-                                   user_preferences=user_preferences, cf_class='neighbor',
-                                   probability_thresh=0.450
-                                   , cf_quantile='neighbor', n_cf=n_cf)
-
-            # Append the value of i to the data list
-            cf_list.append(output['x_cfs_eval'])
-
-            # Save the updated cf to a JSON file
-            with open('cf_seminar_results.json', 'w') as file:
-                json.dump(cf_list, file)
-
-            # print counterfactuals and their corresponding objective values
-            print('\n')
-            print(output['x_cfs_highlight'])
-            print(output['x_cfs_eval'])
-
-            # generate text explanations
-            print('\n')
-            if task is 'classification':
-                input, text_explanation = GenerateTextExplanations(output, dataset)
-                print(input, '\n \n', text_explanation)
-
-            print('\n')
-            print('Done!')
-            """
-
-            for i in range(20, 33):
+            for i in range(36, 43):
                 x_ord = X_test[i]
                 # print(ord2org(x_ord,dataset))
 
@@ -143,21 +91,21 @@ def main():
                 #with open('cf_seminar_results.json', 'w') as file:
                 #    json.dump(cf_list, file)
             # create a binary pickle file
-            with open('cf_seminar_results.pickle', 'wb') as f:
+            with open('cf_seminar_results_3.pickle', 'wb') as f:
                 pickle.dump(cf_list, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 if __name__ == '__main__':
 
 
-    #main()
+    main()
 
     ##after running main and saving the results one can open and watch the results with the following code
 
     import pickle
 
     # Open the pickle file
-    with open('cf_seminar_results.pickle', 'rb') as f:
+    with open('cf_seminar_results_3.pickle', 'rb') as f:
         cf_list = pickle.load(f)
 
     # Iterate over each element (dictionary key) in cf_list
@@ -167,6 +115,7 @@ if __name__ == '__main__':
 
         # Print the data
         print(data)
+
 
 
 
