@@ -13,4 +13,7 @@ In diesem Fall würde die GridSearchCV-Klasse also 81 Kombinationen von Hyperpar
 Beste Hyperparameter-Kombination gefunden:
 {'max_depth': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 300}
 check:  False
-Genauigkeit des besten Modells auf den Testdaten: 0.7848290361845746
+
+Führt zu Resultaten:
+rf-c blackbox accuracy= 0.7901775147928994
+rf-c blackbox F1-score= 0.7898339742203808

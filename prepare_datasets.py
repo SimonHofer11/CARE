@@ -26,7 +26,6 @@ def PrepareIBA_dataset(path_param,name_param):
 
     ## Handling missing values
     df = df.dropna().reset_index(drop=True)
-    #df = df.sample(frac=0.2, replace=True, random_state=2)
 
     ## Recognizing inputs
     class_name = 'Credit_Score'
