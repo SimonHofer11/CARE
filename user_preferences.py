@@ -15,11 +15,9 @@ def userPreferences(dataset, x_ord):
         print(f+':', x_org[i])
 
     if dataset['name'] == 'IBA_seminar_dataset':
-        print("hier")
-        print(x_org)
-        print("x org[1]")
-        print(x_org[1])
-        #[94, 200]
+        #für manche numerische Variablen haben wir implementiert,
+        #dass Wertebereich des foils beispielsweise bei max. 50% höher als Ausgangswert sein soll->realistischere Änderungen
+
         constraints = {'Age': ('fix', 10),  # kann nur älter werden
                        'Occupation': ('fix', 2),  # Beruf sehr schwer zu ändern
                        'Annual_Income': ([0, x_org[1]*1.5],2), # Einkommen mittelschwer zu ändern
