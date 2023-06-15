@@ -19,7 +19,7 @@ def CreateModel(dataset, X_train, X_test, Y_train, Y_test, task, model_name, con
             print(model_name , 'blackbox F1-score=', bb_f1_score)
             return blackbox
         elif model_name == 'rf-c':
-            blackbox = constructor(random_state=42, n_estimators=100)
+            blackbox = constructor(random_state=42, n_estimators=300, max_depth=None,min_samples_leaf=1,min_samples_split=2)
             blackbox.fit(X_train_ohe, Y_train)
             pred_test = blackbox.predict(X_test_ohe)
             bb_accuracy_score = accuracy_score(Y_test, pred_test)
