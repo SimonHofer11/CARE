@@ -89,4 +89,11 @@ plt.tight_layout()
 plt.ylabel("Frequency of occurence")
 plt.show()
 
+plt.figure()
+data["Occupation"].value_counts().plot(kind='bar', color='red', alpha=0.5, edgecolor='black')
+plt.xlabel("Occupation")
+plt.ylabel("Frequency of occurrence")
+plt.tight_layout()
+plt.show()
+
 #### END ###############################################IBA SEMINAR DATA PREPARATION########################################
