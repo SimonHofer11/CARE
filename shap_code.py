@@ -1,8 +1,5 @@
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder, StandardScaler
 
-#### START ###############################################IBA SEMINAR DATA PREPARATION########################################
+from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder, StandardScaler
 
 def PrepareIBA_dataset(path_param,name_param):
     dataset_name = "preprocessed_data.csv"
@@ -40,6 +37,10 @@ def PrepareIBA_dataset(path_param,name_param):
                            'Interest_Rate','Num_of_Loan','Delay_from_due_date','Num_of_Delayed_Payment','Changed_Credit_Limit',
                            'Num_Credit_Inquiries','Outstanding_Debt','Credit_Utilization_Ratio','Total_EMI_per_month',
                            'Amount_invested_monthly','Monthly_Balance']
+
+    #discrete_features = ['Month', 'Occupation', 'Type_of_Loan', 'Credit_Mix',
+    #                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour']
+
 
     discrete_features = ['Occupation', 'Credit_Mix',
                      'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan',' Credit-Builder Loan',
@@ -170,27 +171,98 @@ def PrepareIBA_dataset(path_param,name_param):
         'X_ohe': X_ohe,
         'y': y
     }
+    print("here we go")
 
     return dataset
 
-#### END ###############################################IBA SEMINAR DATA PREPARATION########################################
 
 
+import numpy as np
+
+def ord2ohe(X_ord, dataset):
+    continuous_availability = dataset['continuous_availability']
+    discrete_availability = dataset['discrete_availability']
+    ohe_feature_encoder = dataset['ohe_feature_encoder']
+    len_continuous_ord = dataset['len_continuous_ord']
+    len_discrete_ord = dataset['len_discrete_ord']
+
+    if X_ord.shape.__len__() == 1:
+        if continuous_availability and discrete_availability:
+            X_continuous = X_ord[len_continuous_ord[0]:len_continuous_ord[1]]
+            X_discrete = X_ord[len_discrete_ord[0]:len_discrete_ord[1]]
+            X_discrete = ohe_feature_encoder.transform(X_discrete.reshape(1,-1)).ravel()
+            X_ohe = np.r_[X_continuous, X_discrete]
+            return X_ohe
+        elif continuous_availability:
+            X_continuous = X_ord[len_continuous_ord[0]:len_continuous_ord[1]]
+            X_ohe = X_continuous.copy()
+            return X_ohe
+        elif discrete_availability:
+            X_discrete = X_ord[len_discrete_ord[0]:len_discrete_ord[1]]
+            X_discrete = ohe_feature_encoder.transform(X_discrete.reshape(1, -1)).ravel()
+            X_ohe = X_discrete.copy()
+            return X_ohe
+    else:
+        if continuous_availability and discrete_availability:
+            X_continuous = X_ord[:,len_continuous_ord[0]:len_continuous_ord[1]]
+            X_discrete = X_ord[:,len_discrete_ord[0]:len_discrete_ord[1]]
+            X_discrete = ohe_feature_encoder.transform(X_discrete)
+            X_ohe = np.c_[X_continuous,X_discrete]
+            return X_ohe
+        elif continuous_availability:
+            X_continuous = X_ord[:,len_continuous_ord[0]:len_continuous_ord[1]]
+            X_ohe = X_continuous.copy()
+            return X_ohe
+        elif discrete_availability:
+            X_discrete = X_ord[:,len_discrete_ord[0]:len_discrete_ord[1]]
+            X_discrete = ohe_feature_encoder.transform(X_discrete)
+            X_ohe = X_discrete.copy()
+            return X_ohe
 
 
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+import shap
+import matplotlib.pyplot as plt
+
+# Defining path of data sets and experiment results
+path = './'
+dataset_path = path + 'datasets/'
+
+# Defining the list of data sets
+datasets_list = {
+    'IBA_seminar_dataset': ("preprocessed_data.csv", PrepareIBA_dataset, 'classification'),
+}
+
+# Defining the list of black-boxes
+blackbox_list = {
+    'rf-c': RandomForestClassifier,
+    # 'nn-c': MLPClassifier,
+    # 'gb-c': GradientBoostingClassifier
+}
+
+for dataset_kw in datasets_list:
+    print('dataset=', dataset_kw)
+    print('\n')
+
+    # Reading a data set
+    dataset_name, prepare_dataset_fn, task = datasets_list[dataset_kw]
+    dataset = prepare_dataset_fn(dataset_path, dataset_name)
 
 
+X, y = dataset['X_ord'], dataset['y']
 
+X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=45)
 
+X_train_ohe = ord2ohe(X_train, dataset)
+X_test_ohe = ord2ohe(X_test, dataset)
 
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
- PrepareIBA_dataset()
-
+blackbox = RandomForestClassifier(random_state=42, n_estimators=300, max_depth=None, min_samples_leaf=1, min_samples_split=2)
+blackbox.fit(X_train_ohe, Y_train)
+pred_test = blackbox.predict(X_test_ohe)
+explainer = shap.Explainer(blackbox)
+shap_values = explainer.shap_values(X_train_ohe)
+shap.summary_plot(shap_values, X_train_ohe)
+plt.savefig("summary_plot.png")

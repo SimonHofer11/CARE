@@ -1,3 +1,4 @@
+#Importing packages
 import warnings
 warnings.filterwarnings("ignore")
 import pandas as pd
@@ -5,8 +6,8 @@ pd.set_option('max_columns', None)
 pd.set_option('display.width', 1000)
 from prepare_datasets import *
 from sklearn.model_selection import train_test_split
-from create_model import CreateModel, MLPClassifier, MLPRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from create_model import CreateModel
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from user_preferences import userPreferences
 from care_explainer import CAREExplainer
@@ -24,12 +25,12 @@ def main():
     }
 
     # defining the list of black-boxes
+    #man kann theoretisch auch GradientboostingClassifier für unseren Fall anwenden,
+    #für MLPClassifier müsste man zusätzlich noch Implementierungsschritte codieren
     blackbox_list = {
         'rf-c': RandomForestClassifier
         #'nn-c': MLPClassifier,
-        #'gb-c': GradientBoostingClassifier,
-        # 'nn-r': MLPRegressor,
-        # 'gb-r': GradientBoostingRegressor
+        #'gb-c': GradientBoostingClassifier
     }
 
     for dataset_kw in datsets_list:
@@ -43,8 +44,6 @@ def main():
         # splitting the data set into train and test sets
         X, y = dataset['X_ord'], dataset['y']
         X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=45)
-        #0 is good, 2 is standard, 1 is poor
-        #äendern das wenn 1->2, 2-> 0 0->2
 
         for blackbox_name, blackbox_constructor in blackbox_list.items():
             print('blackbox=', blackbox_name)
@@ -59,13 +58,10 @@ def main():
                 predict_proba_fn = lambda x: blackbox.predict_proba(x)
 
             # instance to explain
-            ind = 0
             cf_list = {}
-
-            for i in range(36, 43):
+            #Loop for running through several facts
+            for i in range(47,63):
                 x_ord = X_test[i]
-                # print(ord2org(x_ord,dataset))
-
                 n_cf = 5
 
                 # set user preferences || they are taken into account when ACTIONABILITY=True!
@@ -80,41 +76,18 @@ def main():
 
                 # Append the value of i to the data list
                 print(output['x_cfs_highlight'])
-                #cf_list.append(output['x_cfs_highlight'].to_dict(orient='records'))
                 cf_list['test_' + str(i) + '_highlight'] = output['x_cfs_highlight']
                 cf_list['test_' + str(i) + '_eval'] = output['x_cfs_eval']
                 cf_list['test_' + str(i) + '_next'] = "--------------------NEXT COUNTERFACTUAL----------------------------"
 
-
-
-                # Save the updated cf to a JSON file
-                #with open('cf_seminar_results.json', 'w') as file:
-                #    json.dump(cf_list, file)
-            # create a binary pickle file
-            with open('cf_seminar_results_3.pickle', 'wb') as f:
+            # create a binary pickle file with results
+            with open('cf_seminar_results_file.pickle', 'wb') as f:
                 pickle.dump(cf_list, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 if __name__ == '__main__':
-
-
     main()
 
-    ##after running main and saving the results one can open and watch the results with the following code
-
-    import pickle
-
-    # Open the pickle file
-    with open('cf_seminar_results_3.pickle', 'rb') as f:
-        cf_list = pickle.load(f)
-
-    # Iterate over each element (dictionary key) in cf_list
-    for element in cf_list:
-        # Access the corresponding dictionary value using the key
-        data = cf_list[element]
-
-        # Print the data
-        print(data)
 
 
 
