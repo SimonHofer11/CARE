@@ -41,10 +41,9 @@ def PrepareIBA_dataset(path_param,name_param):
                            'Num_Credit_Inquiries','Outstanding_Debt','Credit_Utilization_Ratio','Total_EMI_per_month',
                            'Amount_invested_monthly','Monthly_Balance']
 
-    discrete_features = ['Occupation', 'Credit_Mix',
-                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan',' Credit-Builder Loan',
-                         ' Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan',
-                         'Not Specified']
+    discrete_features = ['Occupation', 'Credit_Mix', 'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan',' Credit-Builder Loan',
+                         ' Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan', 'Not Specified']
+
     x = len(continuous_features) + len(discrete_features)
     print(x)
 
@@ -174,20 +173,6 @@ def PrepareIBA_dataset(path_param,name_param):
     return dataset
 
 #### END ###############################################IBA SEMINAR DATA PREPARATION########################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
