@@ -31,7 +31,6 @@ def PrepareIBA_dataset(path_param,name_param):
     class_name = 'Credit_Score'
     df_X_org = df.loc[:, df.columns!=class_name]
     df_y = df.loc[:, class_name]
-    print("df_y_head: ",df_y[0:5])
 
 
 
