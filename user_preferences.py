@@ -18,29 +18,28 @@ def userPreferences(dataset, x_ord):
         #für manche numerische Variablen haben wir implementiert,
         #dass Wertebereich des foils beispielsweise bei max. 50% höher als Ausgangswert sein soll->realistischere Änderungen
 
-        constraints = {'Age': ('fix', 10),  # kann nur älter werden
-                       'Occupation': ('fix', 2),  # Beruf sehr schwer zu ändern
-                       'Annual_Income': ([0, x_org[1]*1.5],2), # Einkommen mittelschwer zu ändern
-                       'Monthly_Inhand_Salary': ([0, x_org[2]*1.5],2),  # Einkommen mittelschwer zu ändern
-                       #'Num_Bank_Accounts': ('fix', 1),  # kann leicht geändert werden
-                       #'Num_Credit_Card': ('fix', 1),  # kann leicht geändert werden
-                       'Interest_Rate': ('fix', 10),  # festgelegt, kann nicht geändert werden
-                       #'Num_of_Loan': ('fix', 10),  # Vergangenheit -- kann nicht geändert werden
-                       #'Type_of_Loan': ('fix', 5),  # nur sehr schwer zu ändern (interpretierbarkeit)
-                       #'Delay_from_due_date': ('fix', 4),  # Vergangenheit -- kann nicht geändert werden
-                       #'Num_of_Delayed_Payment': ('fix', 10),  # Vergangenheit -- kann nicht geändert werden
-                       #'Changed_Credit_Limit': ('fix', 5),  # Balance mittelschwer zu ändern
-                       #'Num_Credit_Inquiries': ('fix', 10),  # Vergangenheit -- kann nicht geändert werden
-                       #'Credit_Mix': ('fix', 3),  # kann bei aktuellem angepasst werden (interpretierbarkeit)
-                       'Outstanding_Debt': ([0, x_org[11]*1.5],2), # ausstehende Schulden nur mittelschwer zu ändern
-                       #'Credit_Utilization_Ratio': ('fix', 3),  # nur mittelschwer zu ändern
-                       'Credit_History_Age': ('fix', 10),  # Vergangenheit -- kann nicht geändert werden
-                       #'Payment_of_Min_Amount': ('fix', 5),  # nur sehr schwer zu ändern
-                       #'Total_EMI_per_month': ('fix', 5),  # nur sehr schwer zu ändern
-                       'Amount_invested_monthly': ([0, x_org[14]*5],2)  # nur sehr schwer zu ändern
-                       #'Payment_Behaviour': ('fix', 5),  # nur sehr schwer zu ändern
-                       #'Monthly_Balance': ('fix', 3),  # Balance mittelschwer zu ändern
-                       # Month, SSN, ID, Customer_ID: komplett raus, weil nicht interpretierbar
+        constraints = {'Age': ('fix', 10),
+                       'Occupation': ('fix', 2),
+                       'Annual_Income': ([0, x_org[1]*1.5],2),
+                       'Monthly_Inhand_Salary': ([0, x_org[2]*1.5],2),
+                       #'Num_Bank_Accounts': ('fix', 1),
+                       #'Num_Credit_Card': ('fix', 1),
+                       'Interest_Rate': ('fix', 10),
+                       #'Num_of_Loan': ('fix', 10),
+                       #'Type_of_Loan': ('fix', 5),
+                       #'Delay_from_due_date': ('fix', 4),
+                       #'Num_of_Delayed_Payment': ('fix', 10),
+                       #'Changed_Credit_Limit': ('fix', 5),
+                       #'Num_Credit_Inquiries': ('fix', 10),
+                       #'Credit_Mix': ('fix', 3),
+                       'Outstanding_Debt': ([0, x_org[11]*1.5],2),
+                       #'Credit_Utilization_Ratio': ('fix', 3),
+                       'Credit_History_Age': ('fix', 10),
+                       #'Payment_of_Min_Amount': ('fix', 5),
+                       #'Total_EMI_per_month': ('fix', 5),
+                       'Amount_invested_monthly': ([0, x_org[14]*5],2)
+                       #'Payment_Behaviour': ('fix', 5),
+                       #'Monthly_Balance': ('fix', 3),
                        }
 
         constraint = [None] * len(x_ord)
