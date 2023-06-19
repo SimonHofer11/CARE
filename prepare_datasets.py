@@ -20,6 +20,11 @@ def PrepareIBA_dataset(path_param,name_param):
     #Löscht mehrere Spalten
     df.drop(['ID', 'Customer_ID', 'SSN','Type_of_Loan','Month'], axis=1, inplace=True)
 
+    # Leerzeichen als erstes Zeichen mancher Spalten entfernen
+    new_colnames = {col: col.lstrip() for col in df.columns}
+    # Aktualisierte Spaltennamen zuweisen
+    df = df.rename(columns=new_colnames)
+
     #Umwandeln der Credit History Age Variable
     df['Credit_History_Age'] = df['Credit_History_Age'].str.extract(r'(\d+)')
 
@@ -38,10 +43,10 @@ def PrepareIBA_dataset(path_param,name_param):
     continuous_features = ['Age', 'Annual_Income', 'Monthly_Inhand_Salary', 'Num_Bank_Accounts', 'Num_Credit_Card',
                            'Interest_Rate','Num_of_Loan','Delay_from_due_date','Num_of_Delayed_Payment','Changed_Credit_Limit',
                            'Num_Credit_Inquiries','Outstanding_Debt','Credit_Utilization_Ratio','Total_EMI_per_month',
-                           'Amount_invested_monthly','Monthly_Balance']
+                           'Amount_invested_monthly','Monthly_Balance', 'Credit_History_Age']
 
-    discrete_features = ['Occupation', 'Credit_Mix', 'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan',' Credit-Builder Loan',
-                         ' Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan', 'Not Specified']
+    discrete_features = ['Occupation', 'Credit_Mix', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan','Credit-Builder Loan',
+                         'Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan', 'Not Specified']
 
     x = len(continuous_features) + len(discrete_features)
     print(x)
