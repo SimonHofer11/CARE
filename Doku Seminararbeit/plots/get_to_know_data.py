@@ -90,6 +90,6 @@ for attribut in discrete_features:
     plt.xlabel(attribut)
     plt.ylabel("Frequency of occurrence")
     plt.tight_layout()
-    plt.show(attribut)
+    plt.savefig(attribut)
 
 #### END ###############################################IBA SEMINAR DATA PREPARATION########################################
