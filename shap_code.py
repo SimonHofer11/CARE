@@ -43,8 +43,8 @@ def PrepareIBA_dataset(path_param,name_param):
 
 
     discrete_features = ['Occupation', 'Credit_Mix',
-                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan',' Credit-Builder Loan',
-                         ' Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan',
+                     'Credit_History_Age', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan','Credit-Builder Loan',
+                         'Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan',
                          'Not Specified']
     x = len(continuous_features) + len(discrete_features)
     print(x)
