@@ -73,6 +73,10 @@ def main():
                                        user_preferences=user_preferences, cf_class='neighbor',
                                        probability_thresh=0.450
                                        , cf_quantile='neighbor', n_cf=n_cf)
+                # print counterfactuals and their corresponding objective values
+                print('\n')
+                print(output['x_cfs_highlight'])
+                print(output['x_cfs_eval'])
 
                 # Append the value of i to the data list
                 print(output['x_cfs_highlight'])

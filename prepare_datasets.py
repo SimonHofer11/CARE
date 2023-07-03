@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder, StandardScaler
 
-#### START ###############################################IBA SEMINAR DATA PREPARATION########################################
-
 def PrepareIBA_dataset(path_param,name_param):
     dataset_name = "preprocessed_data.csv"
 
@@ -42,8 +40,8 @@ def PrepareIBA_dataset(path_param,name_param):
     #ohne Targetvariable
     continuous_features = ['Age', 'Annual_Income', 'Monthly_Inhand_Salary', 'Num_Bank_Accounts', 'Num_Credit_Card',
                            'Interest_Rate','Num_of_Loan','Delay_from_due_date','Num_of_Delayed_Payment','Changed_Credit_Limit',
-                           'Num_Credit_Inquiries','Outstanding_Debt','Credit_Utilization_Ratio','Total_EMI_per_month',
-                           'Amount_invested_monthly','Monthly_Balance', 'Credit_History_Age']
+                           'Num_Credit_Inquiries','Outstanding_Debt', 'Credit_History_Age', 'Credit_Utilization_Ratio','Total_EMI_per_month',
+                           'Amount_invested_monthly','Monthly_Balance']
 
     discrete_features = ['Occupation', 'Credit_Mix', 'Payment_of_Min_Amount', 'Payment_Behaviour','Auto Loan','Credit-Builder Loan',
                          'Personal Loan', 'Debt Consolidation Loan','Home Equity Loan','Mortgage Loan','Payday Loan','Student Loan', 'Not Specified']
@@ -175,9 +173,6 @@ def PrepareIBA_dataset(path_param,name_param):
     }
 
     return dataset
-
-#### END ###############################################IBA SEMINAR DATA PREPARATION########################################
-
 
 
 if __name__ == '__main__':
